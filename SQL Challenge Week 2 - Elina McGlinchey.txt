@@ -1,0 +1,100 @@
+Sakila;
+1.	SELECT * actor;
+2.	SELECT first_name, last_name FROM actor WHERE first_name = ‘John’;
+3.	SELECT * FROM actor WHERE last_name = ‘Neeson’;
+4.	SELECT* FROM actor WHERE actor_id LIKE ‘0%’;
+5.	SELECT description FROM film_text where film_id = 100;
+6.	SELECT title FROM film WHERE rating = ‘R’;
+7.	SELECT title FROM film WHERE rating != ‘R’;
+8.	SELECT title, length FROM film ORDER BY LENGTH ASC LIMIT 10
+9.	SELECT title,MAX(length) FROM film;
+10.	SELECT title FROM film WHERE special_features = ‘Deleted Scenes’;
+11.	.
+12.	.
+13.	SELECT actor_info.first_name, actor_info.last_name
+FROM actor_info
+Join film_actor
+ON actor_info.actor_id=film_actor.actor_id
+GROUP BY actor_info.actor_id
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+14.	SELECT AVG(length) FROM film;
+15.	SELECT category.name, AVG(film.length)
+FROM category
+JOIN film_category ON film_category.category_id=category.category_id
+Join film ON film.film_id=film_category.film_id
+GROUP BY category.category_id;
+16.	.
+17.	SELECT COUNT(film_id) FROM film WHERE release_year = 2010;
+18.	SELECT title FROM film
+JOIN film_category ON film_category.film_id=film.film_id
+JOIN category ON category.category_id=film_category.category_id
+WHERE category.name = 'Horror'
+;
+19.	SELECT first_name, last_name,staff_id FROM staff WHERE staff_id = 2;
+20.	SELECT title FROM film
+JOIN film_actor ON film_actor.film_id=film.film_id
+JOIN actor ON actor.actor_id=film_actor.actor_id
+WHERE first_name='fred' AND last_name='costner';
+21.	CREATE VIEW special_country AS SELECT DISTINCT(country) FROM country;
+SELECT COUNT(*) FROM special_country;
+22.	SELECT name FROM language ORDER BY name desc;
+23.	SELECT first_name, last_name FROM actor WHERE last_name LIKE '%son'ORDER BY first_name ASC;
+24.	SELECT category.name, COUNT(name)
+FROM category
+JOIN film_category ON film_category.category_id=category.category_id
+Join film ON film.film_id=film_category.film_id
+GROUP BY category.category_id
+ORDER BY COUNT(name) desc LIMIT 1;
+
+World;
+1.	SELECT COUNT(name) FROM city WHERE countrycode LIKE 'USA';
+2.	SELECT population, LifeExpectancy FROM country WHERE name='Argentina';
+3.	SELECT name, FROM country WHERE lifeexpectancy IS NOT NULL ORDER BY lifeexpectancy DESC LIMIT 1;
+4.	SELECT city.name FROM city JOIN country ON city.CountryCode = country.Code WHERE country.name = 'Spain' ORDER BY capital LIMIT 1;
+5.	SELECT countrylanguage.Language FROM countrylanguage
+join country ON country.code=countrylanguage.countrycode
+WHERE region = 'southeast asia';
+6.	SELECT name FROM city WHERE name LIKE 'F%' ORDER BY name LIMIT 25;
+7.	SELECT COUNT(city.name) FROM CITY
+JOIN country ON country.code=countrycode
+WHERE country.name = 'china';
+8.	SELECT name FROM country WHERE population is NOT NULL ORDER BY population asc LIMIT 1;
+9.	SELECT COUNT(name) FROM country;
+10.	SELECT name FROM country ORDER BY surfacearea desc LIMIT 10;
+11.	SELECT city.name FROM city
+JOIN country ON country.code=city.countrycode
+WHERE country.name='Japan' ORDER BY city.population desc LIMIT 5;
+12.	UPDATE country
+      SET headofstate = 'Elizabeth II'
+      WHERE headofstate = 'Elisabeth II';
+
+THEN 
+
+SELECT name, code FROM country WHERE HeadOfState='Elizabeth II';
+
+13.	SELECT name, surfacearea/population AS surf_pop FROM country ORDER BY surf_pop DESC LIMIT 10;
+14.	SELECT DISTINCT language FROM countrylanguage;
+15.	SELECT country.name, COUNT(countrylanguage.language) FROM country
+JOIN countrylanguage ON countrylanguage.countrycode=country.code
+GROUP BY country.code
+ORDER BY COUNT(countrylanguage.language) desc LIMIT 10;
+16.	SELECT name, gnp FROM country ORDER BY gnp desc LIMIT 10;
+17.	SELECT country.name FROM country
+JOIN countrylanguage ON countrylanguage.countrycode=country.code
+WHERE countrylanguage.language = 'German' AND Percentage > 50;
+18.	SELECT name, LifeExpectancy FROM country WHERE LifeExpectancy IS NOT NULL ORDER BY LifeExpectancy ASC LIMIT 1;
+19.	SELECT GovernmentForm FROM country GROUP BY governmentform ORDER BY COUNT(code) desc LIMIT 3;
+20.	SELECT COUNT(IndepYear) FROM country WHERE IndepYear IS NOT NULL;
+
+MovieLens;
+1.	SELECT title FROM movies WHERE release_date BETWEEN '1983-01-01' AND '1993-01-01' ORDER BY release_date DESC;
+2.	SELECT title, AVG(ratings.rating) FROM movies
+JOIN ratings ON ratings.id=movies.id
+WHERE rating = 1 GROUP BY title;
+3.	.
+4.	.
+5.	SELECT genres.name, COUNT(movies.id) FROM genres
+JOIN genres_movies ON genres_movies.genre_id=genres.id
+JOIN movies ON movies.id=genres_movies.movie_id
+GROUP BY genres.name ORDER BY COUNT(movies.id) ASC;
